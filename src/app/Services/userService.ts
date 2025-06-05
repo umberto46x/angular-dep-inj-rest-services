@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../Models/User';
+import { userState } from '../States/userState';
 
+@Injectable({ providedIn: 'root' })
 export class userService {
-  users: User[] | undefined = [];
+  userState = inject(userState);
   http = inject(HttpClient);
 
   getUser() {
     this.http
       .get<User[]>(`https://jsonplaceholder.typicode.com/users`)
       .subscribe((result) => {
-        this.users = result;
+        this.userState.init(result);
       });
   }
 }
