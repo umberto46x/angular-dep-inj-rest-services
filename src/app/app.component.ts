@@ -2,10 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, Inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { User } from './Models/User';
+import { JsonPipe } from '@angular/common';
+import { userService } from './Services/userService';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, JsonPipe],
   template: `
     <h1>Welcome to {{ title }}!</h1>
 
@@ -16,14 +18,9 @@ import { User } from './Models/User';
 })
 export class AppComponent {
   title = 'angular-dep-inj-rest-services';
+  userService = inject(userService);
   http = inject(HttpClient);
   users: User[] = [];
 
-  constructor() {
-    this.http
-      .get<User[]>(`https://jsonplaceholder.typicode.com/users`)
-      .subscribe((result) => {
-        this.users = result;
-      });
-  }
+  constructor() {}
 }
